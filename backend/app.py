@@ -37,6 +37,13 @@ async def shorten_url(request: RequestUrl, db: Session = Depends(get_db)):
         raise HTTPException(status_code=409, detail="Code already exists")
 
 
+@app.get("/info/{code}", response_model=ShortUrl)
+async def info(code: str, db: Session = Depends(get_db)):
+    if short_url := await get_url(db, code):
+        return short_url
+    raise HTTPException(status_code=404, detail="URL not found")
+
+
 @app.get("/{code}")
 async def redirect(code: str, db: Session = Depends(get_db)):
     if short_url := await get_url(db, code):
