@@ -1,5 +1,7 @@
+import os
 from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from starlette.responses import RedirectResponse
 
@@ -7,6 +9,7 @@ from PyUrl.backend import models
 from PyUrl.backend.crud import generate_random_code, create_url, get_url
 from PyUrl.backend.database import engine, Session
 from PyUrl.backend.schemas import ShortUrl, RequestUrl
+from PyUrl.backend.utils import get_path
 
 
 @asynccontextmanager
@@ -49,3 +52,12 @@ async def redirect(code: str, db: Session = Depends(get_db)):
     if short_url := await get_url(db, code):
         return RedirectResponse(url=short_url.origin)
     raise HTTPException(status_code=404, detail="URL not found")
+
+
+def start_server():
+    path = get_path(__file__)
+    uvicorn.run(f"{path}:app")
+
+
+if __name__ == "__main__":
+    start_server()

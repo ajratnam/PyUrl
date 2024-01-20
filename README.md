@@ -6,7 +6,12 @@ Url shortening service written in Python
 poetry install
 ```
 
-### Run the `uvicorn` server in development mode
+### Run the backend
 ```bash
 poetry run server
+```
+
+### Run the backend in development mode
+```bash
+uvicorn PyUrl.backend.app:app --reload
 ```
