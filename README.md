@@ -1,2 +1,7 @@
 # PyUrl
-Url Shortening and File Hosting Service with API
+Url shortening service written in Python
+
+### Run in development mode
+```bash
+uvicorn backend.app:app --reload
+```
