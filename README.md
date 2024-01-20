@@ -1,7 +1,12 @@
 # PyUrl
 Url shortening service written in Python
 
-### Run in development mode
+### Install dependencies
 ```bash
-uvicorn backend.app:app --reload
+poetry install
+```
+
+### Run the `uvicorn` server in development mode
+```bash
+poetry run server
 ```
