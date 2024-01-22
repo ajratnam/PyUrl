@@ -6,6 +6,11 @@ Url shortening service written in Python
 poetry install
 ```
 
+### Apply all migrations
+```bash
+albemic upgrade head
+```
+
 ### Run the backend
 ```bash
 poetry run server
