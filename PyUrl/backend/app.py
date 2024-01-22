@@ -1,21 +1,17 @@
-import os
 from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from starlette.responses import RedirectResponse
 
-from PyUrl.backend import models
-from PyUrl.backend.crud import generate_random_code, create_url, get_url
-from PyUrl.backend.database import engine, Session
-from PyUrl.backend.schemas import ShortUrl, RequestUrl
-from PyUrl.backend.utils import get_path
+from .crud import generate_random_code, create_url, get_url
+from .database import engine, Session
+from .schemas import ShortUrl, RequestUrl
+from .utils import get_path
 
 
 @asynccontextmanager
 async def connect_db(_: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(models.Base.metadata.create_all)
     yield
     await engine.dispose()
 
