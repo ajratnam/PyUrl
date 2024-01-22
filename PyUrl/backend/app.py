@@ -1,12 +1,12 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import Depends, FastAPI, HTTPException
 from starlette.responses import RedirectResponse
 
-from .crud import generate_random_code, create_url, get_url
-from .database import engine, Session
-from .schemas import ShortUrl, RequestUrl
+from .crud import create_url, generate_random_code, get_url
+from .database import Session, engine
+from .schemas import RequestUrl, ShortUrl
 from .utils import get_path
 
 

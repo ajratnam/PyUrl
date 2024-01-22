@@ -1,14 +1,13 @@
 import asyncio
-
-from PyUrl.backend.config import settings
-from PyUrl.backend.models import Base
-
-from alembic import context
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
+
+from PyUrl.backend.config import settings
+from PyUrl.backend.models import Base
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
