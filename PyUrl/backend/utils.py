@@ -9,7 +9,7 @@ random_chars = string.ascii_letters + string.digits
 
 
 def random_code(length: int) -> str:
-    return ''.join(random.choices(random_chars, k=length))
+    return "".join(random.choices(random_chars, k=length))
 
 
 def convert(url: Url | None) -> ShortUrl | None:
@@ -22,4 +22,4 @@ def get_path(file: str) -> str:
     file_path = os.path.abspath(file)
     relative_path = os.path.relpath(file_path, start=os.getcwd())
     module_path = os.path.splitext(relative_path)[0]
-    return module_path.replace(os.path.sep, '.')
+    return module_path.replace(os.path.sep, ".")
