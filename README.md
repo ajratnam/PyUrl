@@ -20,3 +20,8 @@ poetry run server
 ```bash
 uvicorn PyUrl.backend.app:app --reload
 ```
+
+### Run the code formatter
+```bash
+ruff --preview --ruff --fix .
+```
