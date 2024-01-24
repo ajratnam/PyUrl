@@ -26,5 +26,6 @@ async def create_url(db: AsyncSession, request: RequestUrl) -> ShortUrl:
 
 async def generate_random_code(db: AsyncSession, length: int) -> str:
     while code := random_code(length):
-        if not await get_url(db, code):
+        if not await get_url(db, code) and len(code) == length:
             return code
+    raise ValueError("Code generation failed")

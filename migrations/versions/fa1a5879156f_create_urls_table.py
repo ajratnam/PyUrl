@@ -1,19 +1,19 @@
 """Create URLs Table
 
 Revision ID: fa1a5879156f
-Revises: 
+Revises:
 Create Date: 2024-01-22 20:50:34.228055
 
 """
-from typing import Sequence, Union
+from collections.abc import Sequence
 
 import sqlalchemy as sa
 from alembic import op
 
 revision: str = "fa1a5879156f"
-down_revision: Union[str, None] = None
-branch_labels: Union[str, Sequence[str], None] = None
-depends_on: Union[str, Sequence[str], None] = None
+down_revision: str | None = None
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:
