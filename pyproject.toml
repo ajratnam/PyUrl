@@ -19,6 +19,7 @@ server = "PyUrl.backend.app:start_server"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.14"
+pre-commit = "^3.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
