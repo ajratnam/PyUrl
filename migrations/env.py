@@ -1,13 +1,26 @@
 import asyncio
+import re
 from logging.config import fileConfig
 
 from alembic import context
+from alembic.script import write_hooks
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from PyUrl.backend.config import settings
 from PyUrl.backend.models import Base
+
+
+@write_hooks.register("remove_comment")
+def remove_comment(filename: str, _: dict) -> None:
+    with open(filename, "r+") as file:
+        content = file.read()
+        content = re.sub(r"^\s*#.*?\n", "", content, flags=re.MULTILINE)
+        file.seek(0)
+        file.write(content)
+        file.truncate()
+
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
