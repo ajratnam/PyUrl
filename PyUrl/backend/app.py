@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
 from .crud import create_url, generate_random_code, get_url
@@ -18,6 +19,14 @@ async def connect_db(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=connect_db)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 async def get_db() -> AsyncIterator[Session]:
@@ -56,7 +65,7 @@ async def redirect(code: str, db: Session = deps) -> RedirectResponse:
 
 def start_server() -> None:
     path = get_path(__file__)
-    uvicorn.run(f"{path}:app")
+    uvicorn.run(f"{path}:app", host="0.0.0.0", port=8000)
 
 
 if __name__ == "__main__":

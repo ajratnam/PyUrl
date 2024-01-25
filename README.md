@@ -11,6 +11,11 @@ poetry install
 albemic upgrade head
 ```
 
+### Run backend using docker
+```bash
+docker-compose up
+```
+
 ### Run the backend
 ```bash
 poetry run server
@@ -19,7 +24,7 @@ poetry run server
 ### Run the backend in development mode
 ```bash
 uvicorn PyUrl.backend.app:app --reload
-```
+````
 
 ### Install development dependencies
 ```bash
