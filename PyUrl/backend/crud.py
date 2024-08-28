@@ -1,11 +1,15 @@
+from typing import TypeVar
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .models import Url
 from .schemas import RequestUrl, ShortUrl
 from .utils import convert, random_code
 
+T = TypeVar("T")
 
-async def add[T](db: AsyncSession, obj: T) -> T:
+
+async def add(db: AsyncSession, obj: T) -> T:
     db.add(obj)
     await db.commit()
     await db.refresh(obj)

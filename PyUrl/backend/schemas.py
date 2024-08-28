@@ -12,3 +12,7 @@ class ShortUrl(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ErrorResponse(BaseModel):
+    detail: str

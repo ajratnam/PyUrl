@@ -8,7 +8,7 @@ from starlette.responses import RedirectResponse
 
 from .crud import create_url, generate_random_code, get_url
 from .database import Session, engine
-from .schemas import RequestUrl, ShortUrl
+from .schemas import ErrorResponse, RequestUrl, ShortUrl
 from .utils import get_path
 
 
@@ -40,7 +40,11 @@ async def get_db() -> AsyncIterator[Session]:
 deps = Depends(get_db)
 
 
-@app.post("/shorten", response_model=ShortUrl)
+@app.post(
+    "/shorten",
+    response_model=ShortUrl,
+    responses={409: {"model": ErrorResponse, "description": "Code already exists"}},
+)
 async def shorten_url(request: RequestUrl, db: Session = deps) -> ShortUrl:
     request.code = request.code or await generate_random_code(db, 6)
     try:
@@ -49,14 +53,25 @@ async def shorten_url(request: RequestUrl, db: Session = deps) -> ShortUrl:
         raise HTTPException(status_code=409, detail="Code already exists") from None
 
 
-@app.get("/info/{code}", response_model=ShortUrl)
+@app.get(
+    "/info/{code}",
+    response_model=ShortUrl,
+    responses={404: {"model": ErrorResponse, "description": "URL not found"}},
+)
 async def info(code: str, db: Session = deps) -> ShortUrl:
     if short_url := await get_url(db, code):
         return short_url
     raise HTTPException(status_code=404, detail="URL not found")
 
 
-@app.get("/{code}")
+@app.get(
+    "/{code}",
+    status_code=307,
+    responses={
+        307: {"description": "Redirect to the original URL", "content": {}},
+        404: {"model": ErrorResponse, "description": "URL not found"},
+    },
+)
 async def redirect(code: str, db: Session = deps) -> RedirectResponse:
     if short_url := await get_url(db, code):
         return RedirectResponse(url=short_url.origin)
