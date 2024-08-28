@@ -8,7 +8,7 @@ poetry install
 
 ### Apply all migrations
 ```bash
-albemic upgrade head
+alembic upgrade head
 ```
 
 ### Run backend using docker
