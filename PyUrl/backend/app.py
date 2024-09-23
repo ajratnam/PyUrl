@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+import logfire
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
@@ -19,6 +20,9 @@ async def connect_db(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=connect_db)
+
+logfire.configure()
+logfire.instrument_fastapi(app)
 
 app.add_middleware(
     CORSMiddleware,
